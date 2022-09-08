@@ -1,0 +1,46 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon bin/index.js",
+    "test": "mocha -n unhandled-rejections=strict --recursive --slow 0 ./tests --watch ./modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cloudinary": "^1.29.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "http-errors": "^2.0.0",
+    "ioredis": "^5.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "mongoose": "^6.2.6",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "nodemailer": "^6.7.3",
+    "sinon": "^7.3.1",
+    "socket.io": "^4.5.0",
+    "streamifier": "^0.1.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "bluebird": "^3.7.2",
+    "blueprint": "^2.1.5",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.3.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "mocha": "^9.2.2",
+    "node-mocks-http": "^1.11.0",
+    "prettier": "^2.5.1",
+    "sinon-mongoose": "^2.3.0"
+  }
+}
