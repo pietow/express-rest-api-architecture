@@ -7,23 +7,16 @@
 
     const Module = require('./entrant.module')()
     const EntrantMiddleware = Module.EntrantMiddleware
-    const PassMiddleware = Module.PassMiddleware
 
     //REGISTRATION
-    router.post(
-        '/',
-        PassMiddleware.getHash,
-        EntrantMiddleware.addEntrant,
-        (req, res) => {
-            res.status(201).json(req.response)
-        },
-    )
+    router.post('/', EntrantMiddleware.addEntrant, (req, res) => {
+        res.status(201).json(req.response)
+    })
 
     //LOGIN
     router.post(
         '/login',
         EntrantMiddleware.getEntrantByEntrantName,
-        PassMiddleware.compareHash,
         (req, res) => {
             res.status(200).json(req.response)
         },
@@ -32,7 +25,6 @@
     router.put(
         '/:entrantId/check',
         EntrantMiddleware.getEntrantById,
-        PassMiddleware.getHash,
         EntrantMiddleware.modifyEntrant,
         (req, res) => {
             res.status(201).json(req.response)
@@ -50,14 +42,9 @@
     })
 
     //MODIFY USER
-    router.put(
-        '/:entrantId',
-        PassMiddleware.ignorePassword,
-        EntrantMiddleware.modifyEntrant,
-        (req, res) => {
-            res.status(200).json(req.response)
-        },
-    )
+    router.put('/:entrantId', EntrantMiddleware.modifyEntrant, (req, res) => {
+        res.status(200).json(req.response)
+    })
 
     //DELETE USER
     router.delete(

@@ -8,7 +8,8 @@ const cors = require('cors')
 
 const MongoDBUtil = require('./modules/mongodb/mongodb.module').MongoDBUtil
 const UserController = require('./modules/user/user.module')().UserController
-const EntrantController = require('./modules/entrant/entrant.module')().EntrantController
+const EntrantController = require('./modules/entrant/entrant.module')()
+    .EntrantController
 
 const path = require('path')
 const app = express()
@@ -25,6 +26,7 @@ app.use(express.json())
 
 //establish connection to MongoDB
 MongoDBUtil.init()
+console.log(process.env.NODE_ENV)
 
 app.use('/api/', cors())
 app.use('/api/users', UserController)
