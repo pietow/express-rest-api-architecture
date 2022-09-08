@@ -18,14 +18,21 @@
             /* }, */
             fname: { type: String, maxLength: 30 },
             lname: { type: String, maxLength: 30 },
-            entrantname: { type: String, unique: true },
+            age: { type: Number },
+            phone: { type: String, maxLength: 30 },
+            address: { type: String, maxLength: 30 },
+            entrantname: { type: String },
             email: {
                 type: String,
                 unique: true,
                 required: true,
                 match: EMAILREGEX,
             },
-            password: { type: String, required: true },
+            circus_project: { type: String, maxLength: 30 },
+            food: { type: String, maxLength: 30 },
+            open_stage: { type: Boolean },
+            workshop: { type: Boolean },
+            attendance_fee: { type: Number },
         },
         opts,
     )
