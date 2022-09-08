@@ -12,50 +12,29 @@ const request = chai.request
 const app = require('../../app')
 
 const Fixtures = require('../fixtures/fixtures')
-const entrantFixture = Fixtures.entrantFixture
+const entrantFixture = Fixtures.EntrantFixture
 
 const baseUri = '/api/entrants'
 const PasswordService = require('../../helpers/password.util')
 
-const testData = {
-    existingentrant: {},
-}
+let ID = 'THIS VALUE SHOULD BE REPLACED'
 
-app.set('env', 'testing')
-
-//TODO: Add fixture for entrant
 describe('entrantController', function () {
     describe(`POST ${baseUri}`, function () {
         it('should add new entrant', function (done) {
             request(app)
                 .post(baseUri)
-                .send(entrantFixture.newentrant)
+                .send(entrantFixture.newEntrant)
                 .end(async (err, res) => {
-                    const bool = await PasswordService.compare(
-                        'password',
-                        res.body.password,
-                    )
-                    expect(bool).to.be.true
-                    expect(res.status).to.equal(201)
+                    res.body.error ? expect(res.body).to.equal({}) : null
                     expect(res.body).to.not.equal({})
                     expect(res.body._id).to.not.equal(undefined)
+                    expect(res.status).to.equal(201)
                     expect(res.body.fname).to.equal(
-                        entrantFixture.createdentrant.fname,
+                        entrantFixture.createdEntrant.fname,
                     )
-                    testData.existingentrant = res.body
+                    ID = res.body._id
 
-                    done()
-                })
-        })
-    })
-
-    describe(`POST ${baseUri}/login`, function () {
-        it('should login registered entrant', function (done) {
-            request(app)
-                .post(`${baseUri}/login`)
-                .send({ entrantname: 'piet', password: 'password' })
-                .end((err, res) => {
-                    expect(res.status).to.equal(200)
 
                     done()
                 })
@@ -77,11 +56,12 @@ describe('entrantController', function () {
         })
     })
 
-    describe(`GET ${baseUri}/${testData.existingentrant._id}`, function () {
+    describe(`GET ${baseUri}/RANDOM_ID`, function () {
         it('should get entrant by id', function (done) {
             request(app)
-                .get(`${baseUri}/${testData.existingentrant._id}`)
+                .get(`${baseUri}/${ID}`)
                 .end(function (err, res) {
+                    if(res.body.error) throw new Error(JSON.stringify(res.body.error))
                     expect(res.status).to.equal(200)
                     expect(res.body).to.not.equal(undefined)
                     expect(res.body).to.be.a('object')
@@ -91,17 +71,18 @@ describe('entrantController', function () {
         })
     })
 
-    describe(`PUT ${baseUri}/${testData.existingentrant._id}`, function () {
+    describe(`PUT ${baseUri}/RANDOM_ID`, function () {
         it('should modify entrant by id', function (done) {
             request(app)
-                .put(`${baseUri}/${testData.existingentrant._id}`)
+                .put(`${baseUri}/${ID}`)
                 .send({ entrantname: 'otto', city: 'Bielefeld' })
                 .end(function (err, res) {
+                    res.body.error ? expect(res.body).to.equal({}) : null
                     expect(res.status).to.equal(200)
                     expect(res.body).to.not.equal({})
                     expect(res.body._id).to.not.equal(undefined)
                     expect(res.body.fname).to.equal(
-                        entrantFixture.createdentrant.fname,
+                        entrantFixture.createdEntrant.fname,
                     )
                     expect(res.body.entrantname).to.equal('otto')
 
@@ -110,18 +91,21 @@ describe('entrantController', function () {
         })
     })
 
-    describe(`DELETE ${baseUri}/${testData.existingentrant._id}`, function () {
+    describe(`DELETE ${baseUri}/RANDOM_ID`, function () {
         it('should delete entrant by id', function (done) {
             request(app)
-                .delete(`${baseUri}/${testData.existingentrant._id}`)
+                .delete(`${baseUri}/${ID}`)
                 .end(function (err, res) {
+                    res.body.error ? expect(res.body).to.equal({}) : null
                     expect(res.status).to.equal(200)
                     expect(res.body).to.not.equal(undefined)
                     expect(res.body).to.be.a('object')
-                    expect(res.body._id).to.equal(testData.existingentrant._id)
+                    expect(res.body._id).to.equal(ID)
 
                     done()
                 })
         })
     })
 })
+
+
