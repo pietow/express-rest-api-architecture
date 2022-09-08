@@ -8,6 +8,7 @@ const cors = require('cors')
 
 const MongoDBUtil = require('./modules/mongodb/mongodb.module').MongoDBUtil
 const UserController = require('./modules/user/user.module')().UserController
+const EntrantController = require('./modules/entrant/entrant.module')().EntrantController
 
 const path = require('path')
 const app = express()
@@ -27,6 +28,7 @@ MongoDBUtil.init()
 
 app.use('/api/', cors())
 app.use('/api/users', UserController)
+app.use('/api/entrants', EntrantController)
 
 app.get('/', (req, res) => {
     const pkg = require(path.join(__dirname, 'package.json'))
