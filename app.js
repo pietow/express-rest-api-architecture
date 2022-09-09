@@ -23,6 +23,7 @@ app.use(
 )
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(express.static(path.join(__dirname, 'client/dist'), { index: false }))
 
 //establish connection to MongoDB
 MongoDBUtil.init()
@@ -34,11 +35,15 @@ app.use('/api/entrants', EntrantController)
 
 app.get('/', (req, res) => {
     const pkg = require(path.join(__dirname, 'package.json'))
-    res.json({
-        name: pkg.name,
-        version: pkg.version,
-        status: 'up',
-    })
+    if (process.env.NODE_ENV === 'development') {
+        res.json({
+            name: pkg.name,
+            version: pkg.version,
+            status: 'up',
+        })
+    } else if (process.env.NODE_ENV === 'production') {
+        res.sendFile(path.join(__dirname, './client/dist/index.html'))
+    }
 })
 
 app.use((req, res, next) => {
