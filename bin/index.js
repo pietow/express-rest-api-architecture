@@ -12,16 +12,3 @@ const server = app.listen(port, () => {
                 '; press Ctrl-C to terminate.',
         )
 })
-
-const { Server } = require('socket.io')
-const io = new Server(server)
-
-
-
-
-io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-        console.log(`message${msg}`)
-        socket.emit('chat message', msg)
-    })
-})
