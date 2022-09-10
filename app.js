@@ -47,18 +47,20 @@ app.get('*', (req, res) => {
 })
 
 app.use((req, res, next) => {
+    //sets Status to 404 and throws an Not Found Error
     next(createError(404))
 })
 
 // error handler
 app.use((err, req, res, next) => {
     //provide error only in development
+    console.log(err.message)
     const error = req.app.get('env') !== 'production' ? err : {}
     //set status header
     res.status(err.status || 500)
     //render error page
     res.json({
-        error: error.message,
+        error: error.message === 'Not Found' ? 'Page Not Found' : error.message,
     })
 })
 
