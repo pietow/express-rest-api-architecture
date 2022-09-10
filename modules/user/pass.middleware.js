@@ -36,11 +36,13 @@
     function compareHash(req, res, next) {
         PasswordService.compare(req.body.password, req.response.password)
             .then((isValid) => {
-                if (isValid) {
+                if (isValid === true) {
                     delete req.response.password
                     next()
-                } else {
+                } else if (isValid === false) {
                     throw new Error('Access denied! Wrong password')
+                } else {
+                    throw new Error('Error in PasswordService.compare')
                 }
             })
             .catch((err) => next(err))

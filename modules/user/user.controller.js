@@ -23,15 +23,15 @@
     /////////////////////////////////////////////////////
 
     //REGISTRATION
-    router.post(
-        '/',
-        PassMiddleware.getHash,
-        UserMiddleware.addUser,
-        PassMiddleware.ignorePassword,
-        (req, res) => {
-            res.status(201).json(req.response)
-        },
-    )
+    /* router.post( */
+    /*     '/', */
+    /*     PassMiddleware.getHash, */
+    /*     UserMiddleware.addUser, */
+    /*     PassMiddleware.ignorePassword, */
+    /*     (req, res) => { */
+    /*         res.status(201).json(req.response) */
+    /*     }, */
+    /* ) */
 
     //LOGIN
     router.post(
@@ -54,9 +54,15 @@
     )
 
     //LIST OF USERS
-    router.get('/', UserMiddleware.getUsers, (req, res) => {
-        res.status(200).json(req.response)
-    })
+    router.post(
+        '/',
+        UserMiddleware.getUserByUserName,
+        PassMiddleware.compareHash,
+        UserMiddleware.getUsers,
+        (req, res) => {
+            res.status(200).json(req.response)
+        },
+    )
 
     //ONE USER
     router.get('/:userId', UserMiddleware.getUserById, (req, res) => {
