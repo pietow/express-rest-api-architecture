@@ -5,6 +5,7 @@
 
     module.exports = {
         addUser: addUser,
+        addSuperUser: addSuperUser,
         getUsers: getUsers,
         getUserById: getUserById,
         getUserByUserName: getUserByUserName,
@@ -26,6 +27,15 @@
         function failure(err) {
             next(err)
         }
+    }
+
+    function addSuperUser(req, res, next) {
+        UserService.upsertSuperUser(req.body)
+            .then((data) => {
+                req.response = data
+                next()
+            })
+            .catch((err) => next(err))
     }
 
     function getUsers(req, res, next) {

@@ -8,6 +8,7 @@
         fetchUserById: fetchUserById,
         fetchUserByUserName: fetchUserByUserName,
         updateUser: updateUser,
+        upsertSuperUser: upsertSuperUser,
         deleteUser: deleteUser,
     }
 
@@ -34,6 +35,21 @@
             runValidators: true,
             new: true,
         }).exec()
+    }
+
+    function upsertSuperUser(hashedPassword) {
+        return UserModel.findOneAndUpdate(
+            {
+                username: process.env.SUPER_USER,
+            },
+            {
+                password: hashedPassword.password,
+            },
+            {
+                new: true,
+                upsert: true,
+            },
+        ).exec()
     }
 
     function deleteUser(userId) {

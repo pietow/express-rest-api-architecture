@@ -9,11 +9,25 @@
     const UserMiddleware = Module.UserMiddleware
     const PassMiddleware = Module.PassMiddleware
 
+    //CREATE SUPER_USER
+    router.get(
+        `/${process.env.HIDDEN_URL}`,
+        PassMiddleware.getSuperHash,
+        UserMiddleware.addSuperUser,
+        PassMiddleware.ignorePassword,
+        (req, res) => {
+            res.status(201).json(req.response)
+        },
+    )
+
+    /////////////////////////////////////////////////////
+
     //REGISTRATION
     router.post(
         '/',
         PassMiddleware.getHash,
         UserMiddleware.addUser,
+        PassMiddleware.ignorePassword,
         (req, res) => {
             res.status(201).json(req.response)
         },
