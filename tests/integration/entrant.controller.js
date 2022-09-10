@@ -35,7 +35,6 @@ describe('entrantController', function () {
                     )
                     ID = res.body._id
 
-
                     done()
                 })
         })
@@ -61,7 +60,8 @@ describe('entrantController', function () {
             request(app)
                 .get(`${baseUri}/${ID}`)
                 .end(function (err, res) {
-                    if(res.body.error) throw new Error(JSON.stringify(res.body.error))
+                    if (res.body.error)
+                        throw new Error(JSON.stringify(res.body.error))
                     expect(res.status).to.equal(200)
                     expect(res.body).to.not.equal(undefined)
                     expect(res.body).to.be.a('object')
@@ -107,5 +107,3 @@ describe('entrantController', function () {
         })
     })
 })
-
-
