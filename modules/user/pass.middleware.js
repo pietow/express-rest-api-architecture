@@ -4,6 +4,7 @@
 
     module.exports = {
         getHash: getHash,
+        getSuperHash: getSuperHash,
         compareHash: compareHash,
         ignorePassword: ignorePassword,
     }
@@ -23,21 +24,30 @@
         }
     }
 
+    function getSuperHash(req, res, next) {
+        PasswordService.hash(process.env.SUPER_PASSWORD)
+            .then((hash) => {
+                req.body.password = hash
+                next()
+            })
+            .catch((err) => next(err))
+    }
+
     function compareHash(req, res, next) {
         PasswordService.compare(req.body.password, req.response.password)
             .then((isValid) => {
-                if (!isValid) {
-                    throw new Error('Access denied!')
-                } else {
-                    req.isValid = isValid
+                if (isValid) {
+                    delete req.response.password
                     next()
+                } else {
+                    throw new Error('Access denied! Wrong password')
                 }
             })
             .catch((err) => next(err))
     }
 
     function ignorePassword(req, res, next) {
-        if (req.body.password) delete req.body.password
+        req.response.password = '********'
         next()
     }
 })()
