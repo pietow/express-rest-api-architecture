@@ -13,7 +13,6 @@
     }
 
     const EntrantService = require('./entrant.module')().EntrantService
-    const MailerHelper = require('../../helpers/mailer.helper')
 
     function addEntrant(req, res, next) {
         EntrantService.createEntrant(req.body).then(success).catch(failure)
@@ -34,7 +33,7 @@
                 req.response = data
                 if (!Array.isArray(data))
                     throw Error(
-                        'in EntrantMiddleware: should return an Array of entrants',
+                        'in EntrantMiddleware.getEntrants: should return an Array of entrants',
                     )
                 next()
             })

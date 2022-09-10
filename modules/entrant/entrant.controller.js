@@ -5,48 +5,41 @@
     const express = require('express')
     const router = express.Router()
 
-    const Module = require('./entrant.module')()
-    const EntrantMiddleware = Module.EntrantMiddleware
+    const EntrantModule = require('./entrant.module')()
+    const UserModule = require('../user/user.module.js')()
+    const EntrantMiddleware = EntrantModule.EntrantMiddleware
+    const UserMiddleware = UserModule.UserMiddleware
+    const PassMiddleware = UserModule.PassMiddleware
 
-    //REGISTRATION
+    //CREATE PERSONAL DATA
     router.post('/', EntrantMiddleware.addEntrant, (req, res) => {
         res.status(201).json(req.response)
     })
 
-    //LOGIN
+    //LIST OF ENTRANTS
     router.post(
-        '/login',
-        EntrantMiddleware.getEntrantByEntrantName,
+        '/list',
+        UserMiddleware.getUserByUserName,
+        PassMiddleware.compareHash,
+        EntrantMiddleware.getEntrants,
         (req, res) => {
             res.status(200).json(req.response)
         },
     )
 
-    router.put(
-        '/:entrantId/check',
-        EntrantMiddleware.getEntrantById,
-        EntrantMiddleware.modifyEntrant,
-        (req, res) => {
-            res.status(201).json(req.response)
-        },
-    )
+    ////////////////////////////////////////////////////////
 
-    //LIST OF USERS
-    router.get('/', EntrantMiddleware.getEntrants, (req, res) => {
-        res.status(200).json(req.response)
-    })
-
-    //ONE USER
+    //ONE ENTRANT
     router.get('/:entrantId', EntrantMiddleware.getEntrantById, (req, res) => {
         res.status(200).json(req.response)
     })
 
-    //MODIFY USER
+    //MODIFY ENTRANT
     router.put('/:entrantId', EntrantMiddleware.modifyEntrant, (req, res) => {
         res.status(200).json(req.response)
     })
 
-    //DELETE USER
+    //DELETE ENTRANT
     router.delete(
         '/:entrantId',
         EntrantMiddleware.removeEntrant,
