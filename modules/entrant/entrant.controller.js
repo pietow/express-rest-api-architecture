@@ -29,16 +29,6 @@
 
     ////////////////////////////////////////////////////////
 
-    //ONE ENTRANT
-    router.get('/:entrantId', EntrantMiddleware.getEntrantById, (req, res) => {
-        res.status(200).json(req.response)
-    })
-
-    //MODIFY ENTRANT
-    router.put('/:entrantId', EntrantMiddleware.modifyEntrant, (req, res) => {
-        res.status(200).json(req.response)
-    })
-
     //DELETE ENTRANT
     router.delete(
         '/:entrantId',

@@ -40,51 +40,19 @@ describe('entrantController', function () {
         })
     })
 
-    describe(`GET ${baseUri}`, function () {
+    describe(`POST ${baseUri}/list`, function () {
         it('should get all entrants', function (done) {
             request(app)
-                .get(baseUri)
+                .post(`${baseUri}/list`)
+                .send({
+                    password: process.env.SUPER_PASSWORD,
+                    username: process.env.SUPER_USER,
+                })
                 .end(function (err, res) {
                     expect(res.status).to.equal(200)
                     expect(res.body).to.not.equal(undefined)
                     expect(res.body).to.be.a('array')
                     expect(res.body.length).to.not.equal(0)
-
-                    done()
-                })
-        })
-    })
-
-    describe(`GET ${baseUri}/RANDOM_ID`, function () {
-        it('should get entrant by id', function (done) {
-            request(app)
-                .get(`${baseUri}/${ID}`)
-                .end(function (err, res) {
-                    if (res.body.error)
-                        throw new Error(JSON.stringify(res.body.error))
-                    expect(res.status).to.equal(200)
-                    expect(res.body).to.not.equal(undefined)
-                    expect(res.body).to.be.a('object')
-
-                    done()
-                })
-        })
-    })
-
-    describe(`PUT ${baseUri}/RANDOM_ID`, function () {
-        it('should modify entrant by id', function (done) {
-            request(app)
-                .put(`${baseUri}/${ID}`)
-                .send({ entrantname: 'otto', city: 'Bielefeld' })
-                .end(function (err, res) {
-                    res.body.error ? expect(res.body).to.equal({}) : null
-                    expect(res.status).to.equal(200)
-                    expect(res.body).to.not.equal({})
-                    expect(res.body._id).to.not.equal(undefined)
-                    expect(res.body.fname).to.equal(
-                        entrantFixture.createdEntrant.fname,
-                    )
-                    expect(res.body.entrantname).to.equal('otto')
 
                     done()
                 })
