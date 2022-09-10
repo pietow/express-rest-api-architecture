@@ -17,7 +17,7 @@ const app = express()
 app.use(
     logger('tiny', {
         skip: function (req, res) {
-            return req.app.get('env') !== 'development'
+            return process.env.NODE_ENV !== 'development'
         },
     }),
 )
@@ -33,7 +33,7 @@ app.use('/api/', cors())
 app.use('/api/users', UserController)
 app.use('/api/entrants', EntrantController)
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
     const pkg = require(path.join(__dirname, 'package.json'))
     if (process.env.NODE_ENV === 'development') {
         res.json({
