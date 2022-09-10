@@ -2,7 +2,10 @@
 ;(function () {
     'use strict'
     console.log('DATABASE:', process.env.DATABASE)
-    process.env.DATABASE = process.env.NODE_ENV === 'testing' ? 'piet_testing' : process.env.DATABASE
+    process.env.DATABASE =
+        process.env.NODE_ENV === 'testing'
+            ? 'piet_testing'
+            : process.env.DATABASE
     console.log('DATABASE:', process.env.DATABASE)
 
     const connectionString = `mongodb+srv://${process.env.DBUSER}:${process.env.PASSWORD}@cluster0.9dfvi.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`
