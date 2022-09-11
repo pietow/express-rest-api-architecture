@@ -21,7 +21,6 @@
             age: { type: Number },
             phone: { type: String, maxLength: 30 },
             address: { type: String, maxLength: 30 },
-            entrantname: { type: String },
             email: {
                 type: String,
                 unique: true,
