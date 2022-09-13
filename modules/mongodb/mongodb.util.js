@@ -32,14 +32,32 @@
                     `MongoDB connection failed to DB: ${process.env.DATABASE}`,
                 )
             })
+        //TODO: add promise.all to connect to multiple collections
         mongoose.connection.on('connected', () => {
-            mongoose.connection.db.collection('users').count((err, count) => {
-                if (count === 0) {
-                    const UserModel = require('../user/user.module')().UserModel
-                    UserModel.init()
-                    console.log('User model initialized!')
-                }
-            })
+            mongoose.connection.db
+                .collection('entrants')
+                .count()
+                .then((count) => {
+                    if (count === 0) {
+                        const UserModel = require('../user/user.module')()
+                            .UserModel
+                        UserModel.init()
+                        console.log('User model initialized!')
+                    }
+                })
+                .catch(console.log)
+            mongoose.connection.db
+                .collection('entrants')
+                .count()
+                .then((count) => {
+                    if (count === 0) {
+                        const EntrantModel =
+                            require('../entrant/entrant.module')().EntrantModel
+                        EntrantModel.init()
+                        console.log('Entrant model initialized!')
+                    }
+                })
+                .catch(console.log)
         })
     }
 })()

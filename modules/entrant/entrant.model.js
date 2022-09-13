@@ -26,7 +26,6 @@
             email: {
                 type: String,
                 unique: true,
-                index: true,
                 required: true,
             },
             circus_project: { type: String, maxLength: 30 },
