@@ -8,5 +8,6 @@
     "singleQuote": true,
     "trailingComma": "all",
     "arrowParens": "always",
-    "insertPragma": true
+    "insertPragma": true,
+    "endOfLine": "auto"
 }

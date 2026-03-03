@@ -10,6 +10,8 @@
 
     const connectionString = `mongodb+srv://${process.env.DBUSER}:${process.env.PASSWORD}@cluster0.9dfvi.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`
 
+    const uri = process.env.MONGODB_URI || connectionString
+
     module.exports = { init: init, connectionString: connectionString }
 
     const mongoose = require('mongoose')
